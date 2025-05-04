@@ -14,12 +14,17 @@ on:
 jobs:
   build-test-release-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.PAT }}  # Use PAT for checkout to ensure proper permissions
+          token: ${{ secrets.WORKFLOW_PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -63,15 +68,13 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "GitHub Actions"
+          git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
           git add manifest.json package.json
           git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new_version }}"
           git tag "v${{ steps.bump-version.outputs.new_version }}"
-          git push origin main
-          git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}  # Use PAT for pushing changes
+          git push origin HEAD:main
+          git push origin --tags
 
       - name: Generate changelog
         id: changelog

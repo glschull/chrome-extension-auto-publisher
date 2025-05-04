@@ -4,6 +4,8 @@
  */
 console.log('[Content] Content script loaded');
 
+// Updated on May 4, 2025 to trigger workflow with PAT
+
 // Variable to track the element that was right-clicked
 let targetElement: HTMLElement | null = null;
 
