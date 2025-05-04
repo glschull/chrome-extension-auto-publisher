@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.PAT }}  # Use PAT for checkout to ensure proper permissions
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -67,8 +68,10 @@ jobs:
           git add manifest.json package.json
           git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new_version }}"
           git tag "v${{ steps.bump-version.outputs.new_version }}"
-          git push
+          git push origin main
           git push --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}  # Use PAT for pushing changes
 
       - name: Generate changelog
         id: changelog
