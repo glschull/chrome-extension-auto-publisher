@@ -1,6 +1,7 @@
 /**
  * Popup script for the extension configuration
  * Handles saving and loading of the Google Sheets script URL
+ * Updated: May 4, 2025 - Small change to trigger workflow
  */
 
 // DOM Elements
