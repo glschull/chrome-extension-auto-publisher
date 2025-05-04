@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-auto-publisher",
-  "version": "1.0.357",
+  "version": "1.0.358",
   "description": "Chrome extension that copies tables to Google Sheets with automatic CI/CD publishing",
   "main": "src/background/index.ts",
   "type": "module",
