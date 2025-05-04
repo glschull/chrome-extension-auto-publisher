@@ -1,0 +1,22 @@
+{
+  "extension_name": {
+    "message": "My Chrome Extension",
+    "description": "The name of the Chrome extension."
+  },
+  "extension_description": {
+    "message": "This is a sample Chrome extension built with Vite and TypeScript.",
+    "description": "A brief description of what the extension does."
+  },
+  "action_button": {
+    "message": "Click me!",
+    "description": "Text for the action button in the popup."
+  },
+  "greeting": {
+    "message": "Hello, welcome to my extension!",
+    "description": "Greeting message displayed in the popup."
+  },
+  "farewell": {
+    "message": "Thank you for using my extension!",
+    "description": "Farewell message displayed when the user closes the popup."
+  }
+}

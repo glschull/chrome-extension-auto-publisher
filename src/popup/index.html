@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copy Table to Google Sheets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <h1>Copy Table to Google Sheets</h1>
+    </div>
+    
+    <div class="content">
+      <p>Enter your Google Apps Script web app URL to enable table copying:</p>
+      
+      <div class="form-group">
+        <label for="scriptUrl">Script URL:</label>
+        <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/...">
+      </div>
+      
+      <button id="saveButton" class="primary-button">Save Settings</button>
+      
+      <div class="instructions">
+        <h2>How to use:</h2>
+        <ol>
+          <li>Create a Google Apps Script web app that accepts table data</li>
+          <li>Add the web app URL above and save</li>
+          <li>Right-click on any HTML table on a webpage</li>
+          <li>Select "Copy Table to Google Sheets" from the context menu</li>
+        </ol>
+      </div>
+      
+      <div class="instructions">
+        <h2>Need help?</h2>
+        <p>
+          <a href="#" id="setupLink">View setup instructions</a> for creating your Google Apps Script
+        </p>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>v<span id="versionText">1.0.0</span></p>
+    </div>
+  </div>
+  
+  <script src="index.ts" type="module"></script>
+</body>
+</html>

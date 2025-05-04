@@ -1,0 +1,96 @@
+name: Release & Publish
+
+on:
+  push:
+    branches: [main]
+    paths: ['src/**', 'manifest.json']
+
+jobs:
+  build-test-release-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build extension
+        run: yarn build
+
+      - name: Create zip archive
+        run: zip -r dist.zip dist
+
+      - name: Auto bump version
+        id: bump-version
+        run: |
+          # Extract current version
+          CURRENT_VERSION=$(node -p "require('./manifest.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Bump patch version
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          PATCH=$((VERSION_PARTS[2] + 1))
+          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH"
+          echo "New version: $NEW_VERSION"
+          
+          # Update manifest.json
+          sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" manifest.json
+          
+          # Update package.json
+          sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" package.json
+          
+          # Set output for later steps
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add manifest.json package.json
+          git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new_version }}"
+          git tag "v${{ steps.bump-version.outputs.new_version }}"
+          git push
+          git push --tags
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            # If no previous tag exists, get all commits
+            git log --pretty=format:"- %s" > CHANGELOG_EXCERPT.md
+          else
+            # Get commits between tags
+            git log --pretty=format:"- %s" $PREVIOUS_TAG..HEAD > CHANGELOG_EXCERPT.md
+          fi
+          echo "changelog_file=CHANGELOG_EXCERPT.md" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ steps.bump-version.outputs.new_version }}"
+          name: "Release v${{ steps.bump-version.outputs.new_version }}"
+          body_path: ${{ steps.changelog.outputs.changelog_file }}
+          files: dist.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Chrome Web Store
+        run: |
+          npx chrome-webstore-upload-cli --source dist.zip --auto-publish \
+            --extension-id ${{ secrets.CHROME_EXTENSION_ID }} \
+            --client-id ${{ secrets.CHROME_CLIENT_ID }} \
+            --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} \
+            --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}

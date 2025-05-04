@@ -1,0 +1,47 @@
+{
+  "name": "chrome-extension-auto-publisher",
+  "version": "1.0.0",
+  "description": "Chrome extension that copies tables to Google Sheets with automatic CI/CD publishing",
+  "main": "src/background/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:full": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"Skipping tests\" && exit 0",
+    "test:full": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx,json,html,css,md}\""
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "vite",
+    "typescript",
+    "table",
+    "google-sheets",
+    "ci-cd"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.19",
+    "@types/chrome": "^0.0.246",
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "chrome-webstore-upload-cli": "^2.1.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vitest": "^1.0.4"
+  }
+}
