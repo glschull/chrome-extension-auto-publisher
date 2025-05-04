@@ -39,9 +39,9 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        background: resolve(__dirname, 'background.js'), // Use our new file
+        background: resolve(__dirname, 'background.js'),
         content: resolve(__dirname, 'content.js'),
-        popup: resolve(__dirname, 'src/popup/index.html'),
+        popup: resolve(__dirname, 'src/popup/index.html').replace(/\\/g, '/'), // Fix path format
       },
       output: {
         entryFileNames: chunk => {
