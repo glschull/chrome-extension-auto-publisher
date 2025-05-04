@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Copy Table to Google Sheets",
-  "version": "1.0.195",
+  "version": "1.0.196",
   "description": "Easily copy HTML tables to Google Sheets with formatting intact via a simple right-click menu option.",
   "default_locale": "en",
   "icons": {
