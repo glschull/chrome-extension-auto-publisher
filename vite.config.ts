@@ -7,30 +7,6 @@ import fs from 'fs';
 // Ensure we're using the correct manifest
 const finalManifest = JSON.parse(fs.readFileSync('./manifest.json', 'utf-8'));
 
-// Helper function to check if file exists
-function fileExists(path) {
-  try {
-    return fs.statSync(path).isFile();
-  } catch (e) {
-    return false;
-  }
-}
-
-// Determine the correct extension for entry files based on what exists
-function getEntryPath(basePath, fileName) {
-  const tsPath = resolve(__dirname, `${basePath}/${fileName}.ts`);
-  const jsPath = resolve(__dirname, `${basePath}/${fileName}.js`);
-  
-  if (fileExists(tsPath)) {
-    return tsPath;
-  } else if (fileExists(jsPath)) {
-    return jsPath;
-  }
-  
-  // Default to .js if neither exists (will cause a more helpful error)
-  return jsPath;
-}
-
 export default defineConfig({
   plugins: [
     crx({ manifest: finalManifest }),
@@ -51,8 +27,8 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        background: getEntryPath('src/background', 'index'),
-        content: getEntryPath('src/content-script', 'index'),
+        background: resolve(__dirname, 'src/background/index.js'),
+        content: resolve(__dirname, 'src/content-script/index.js'),
         popup: resolve(__dirname, 'src/popup/index.html'),
       },
       output: {
