@@ -1,4 +1,9 @@
 /**
+ * Background script for handling browser events and API calls
+ * Update: May 4, 2025 - Added note about Chrome Web Store publishing fix
+ */
+
+/**
  * Background script for the Chrome Extension
  * Handles context menu creation and communication with content scripts
  */
