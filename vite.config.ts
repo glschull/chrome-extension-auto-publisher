@@ -6,12 +6,16 @@ import fs from 'fs';
 
 // Debug logging to help identify issues
 console.log('Current working directory:', process.cwd());
-console.log('Files in src/content-script:');
+console.log('Files in src directory:');
 try {
-  const contentScriptFiles = fs.readdirSync(resolve(process.cwd(), 'src/content-script'));
-  console.log(contentScriptFiles);
+  const srcFiles = fs.readdirSync(resolve(process.cwd(), 'src'));
+  console.log(srcFiles);
+  
+  console.log('Files in src/popup:');
+  const popupFiles = fs.readdirSync(resolve(process.cwd(), 'src/popup'));
+  console.log(popupFiles);
 } catch (err) {
-  console.error('Error listing content script files:', err);
+  console.error('Error listing files:', err);
 }
 
 // Ensure we're using the correct manifest
@@ -25,6 +29,20 @@ export default defineConfig({
       writeBundle() {
         // Copy manifest
         fs.copyFileSync('./manifest.json', './dist/manifest.json');
+        
+        // Copy popup HTML directly as a fallback
+        try {
+          if (!fs.existsSync('./dist/popup')) {
+            fs.mkdirSync('./dist/popup', { recursive: true });
+          }
+          
+          if (fs.existsSync('./src/popup/index.html') && !fs.existsSync('./dist/popup/index.html')) {
+            fs.copyFileSync('./src/popup/index.html', './dist/popup/index.html');
+            console.log('Successfully copied popup HTML from src');
+          }
+        } catch (err) {
+          console.error('Error copying popup HTML:', err);
+        }
       }
     }
   ],
@@ -41,7 +59,7 @@ export default defineConfig({
       input: {
         background: resolve(__dirname, 'background.js'),
         content: resolve(__dirname, 'content.js'),
-        popup: resolve(__dirname, 'src/popup/index.html').replace(/\\/g, '/'), // Fix path format
+        popup: resolve(__dirname, 'popup.html')
       },
       output: {
         entryFileNames: chunk => {
