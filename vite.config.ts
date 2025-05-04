@@ -25,16 +25,6 @@ export default defineConfig({
       writeBundle() {
         // Copy manifest
         fs.copyFileSync('./manifest.json', './dist/manifest.json');
-        
-        // Copy content script directly as a fallback
-        try {
-          if (fs.existsSync('./src/content-script/index.js')) {
-            console.log('Copying content script directly');
-            fs.copyFileSync('./src/content-script/index.js', './dist/content.js');
-          }
-        } catch (err) {
-          console.error('Error copying content script:', err);
-        }
       }
     }
   ],
@@ -51,11 +41,15 @@ export default defineConfig({
       input: {
         background: resolve(__dirname, 'src/background/index.js'),
         popup: resolve(__dirname, 'src/popup/index.html'),
+        content: resolve(__dirname, 'content.js') // Use our new file
       },
       output: {
         entryFileNames: chunk => {
           if (chunk.name === 'background') {
             return 'background.js';
+          }
+          if (chunk.name === 'content') {
+            return 'content.js';
           }
           return '[name].js';
         },
