@@ -1,3 +1,4 @@
+// Small update to trigger workflow - May 4, 2025
 export default {
   manifest_version: 3,
   name: "Copy Table to Google Sheets",
