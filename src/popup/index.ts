@@ -45,8 +45,8 @@ function loadSettings(): void {
   });
   
   // Display extension version from manifest
-  chrome.runtime.getManifest().version;
-  versionText.textContent = chrome.runtime.getManifest().version;
+  const version = chrome.runtime.getManifest().version;
+  versionText.textContent = version;
 }
 
 /**

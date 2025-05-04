@@ -1,22 +1,26 @@
 {
   "extension_name": {
-    "message": "My Chrome Extension",
+    "message": "Copy Table to Google Sheets",
     "description": "The name of the Chrome extension."
   },
   "extension_description": {
-    "message": "This is a sample Chrome extension built with Vite and TypeScript.",
+    "message": "Easily copy HTML tables to Google Sheets with a right-click.",
     "description": "A brief description of what the extension does."
   },
   "action_button": {
-    "message": "Click me!",
+    "message": "Save Settings",
     "description": "Text for the action button in the popup."
   },
   "greeting": {
-    "message": "Hello, welcome to my extension!",
-    "description": "Greeting message displayed in the popup."
+    "message": "Enter your Google Apps Script web app URL to enable table copying:",
+    "description": "Instruction message displayed in the popup."
   },
   "farewell": {
     "message": "Thank you for using my extension!",
     "description": "Farewell message displayed when the user closes the popup."
+  },
+  "context_menu_title": {
+    "message": "Copy Table to Google Sheets",
+    "description": "Title shown in the context menu."
   }
 }

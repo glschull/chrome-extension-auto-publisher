@@ -1,34 +1,35 @@
 export default {
   manifest_version: 3,
-  name: "Your Extension Name",
+  name: "Copy Table to Google Sheets",
   version: "1.0.0",
-  description: "A brief description of your Chrome extension.",
+  description: "Easily copy HTML tables to Google Sheets with a right-click.",
+  default_locale: "en",
   icons: {
-    "16": "assets/logo.svg",
-    "48": "assets/logo.svg",
-    "128": "assets/logo.svg"
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
   },
   action: {
-    default_popup: "popup/index.html",
-    default_icon: "assets/logo.svg"
+    default_popup: "popup.html",
+    default_icon: "icons/48.png"
   },
   background: {
-    service_worker: "background/index.ts"
+    service_worker: "background.js"
   },
   content_scripts: [
     {
       matches: ["<all_urls>"],
-      js: ["content-script/index.ts"]
+      js: ["content.js"],
+      run_at: "document_end"
     }
   ],
   permissions: [
     "activeTab",
-    "storage"
+    "contextMenus",
+    "storage",
+    "scripting"
   ],
-  web_accessible_resources: [
-    {
-      resources: ["assets/logo.svg"],
-      matches: ["<all_urls>"]
-    }
+  host_permissions: [
+    "<all_urls>"
   ]
 };
