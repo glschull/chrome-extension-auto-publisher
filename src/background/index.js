@@ -2,6 +2,7 @@
 /**
  * Background script for the Chrome Extension
  * Handles context menu creation and communication with content scripts
+ * Updated to trigger GitHub Actions workflow
  */
 
 // Create context menu item when extension is installed
