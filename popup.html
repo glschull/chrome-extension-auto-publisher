@@ -8,8 +8,9 @@
   <link rel="stylesheet" href="./src/popup/style.css">
 </head>
 <body>
-  <!-- This is a root-level copy of the popup HTML file -->
-  <!-- The actual content will be loaded from src/popup/index.js -->
   <div id="app"></div>
+  <!-- References to additional entry scripts -->
+  <script type="module" src="./background.js"></script>
+  <script type="module" src="./content.js"></script>
 </body>
 </html>
